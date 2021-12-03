@@ -6,7 +6,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
-  TotpController _totpController = Get.put(TotpController());
+  final TotpController _totpController = Get.put(TotpController());
 
   HomePage({Key? key}) : super(key: key);
 
@@ -15,6 +15,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
+      backgroundColor: Colors.grey[200],
       floatingActionButton:
           _buildFloatActionButton(), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -58,48 +59,51 @@ class HomePage extends StatelessWidget {
 
   Widget _buildBody() {
     if (_totpController.otpItems.isEmpty) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Nothing to see here',
-            style: TextStyle(
-              fontSize: 32,
-              color: Colors.black,
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Nothing to see here',
+              style: TextStyle(
+                fontSize: 32,
+                color: Colors.black,
+              ),
             ),
-          ),
-          Text(
-            'Add an account to get started',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[900],
+            Text(
+              'Add an account to get started',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[900],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     } else {
-      return ListView.builder(
-          itemCount: _totpController.otpItems.length,
-          itemBuilder: (context, index) {
-            return OTPItem(
-              secureOtp: _totpController.otpItems[index],
-            );
-          });
+      return Obx(
+        () => ListView.builder(
+            itemCount: _totpController.otpItems.value.length,
+            itemBuilder: (context, index) {
+              return OTPItem(
+                secureOtp: _totpController.otpItems.value[index],
+              );
+            }),
+      );
     }
   }
 
   Widget _buildFloatActionButton() {
     return SpeedDial(
-      icon: Icons.add,
       useRotationAnimation: true,
       spacing: 8,
       spaceBetweenChildren: 8,
       iconTheme: IconThemeData(color: Colors.black),
       backgroundColor: Colors.white,
       animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData.fallback(),
       overlayColor: Colors.grey,
-      overlayOpacity: 0.4,
+      overlayOpacity: 0.6,
       children: [
         SpeedDialChild(
             child: const Icon(

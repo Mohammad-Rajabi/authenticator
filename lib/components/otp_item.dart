@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:authenticator/models/secure_otp.dart';
 
 import 'package:flutter/material.dart';
@@ -23,6 +25,10 @@ class OTPItemState extends State<OTPItem> {
     super.initState();
     secureOtp = widget.secureOtp;
     totp = secureOtp.getTotp();
+
+    Timer.periodic(Duration(seconds: 60), (timer) {
+      totp = secureOtp.getTotp();
+    });
   }
 
   @override
@@ -30,7 +36,7 @@ class OTPItemState extends State<OTPItem> {
     var totpKey = secureOtp.secret;
 
     return Padding(
-      padding: EdgeInsets.only(left: 8, right: 8),
+      padding: EdgeInsets.only(top: 8, right: 8, left: 8),
       child: Card(
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
@@ -38,27 +44,29 @@ class OTPItemState extends State<OTPItem> {
             padding: EdgeInsets.only(top: 18, bottom: 18, left: 16, right: 16),
             child: Column(
               children: <Widget>[
-                Countdown(
-                  controller: _controller,
-                  seconds: 60,
-                  build: (_, double time) => Text(
+                Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: Text(
+                    secureOtp.accountName,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: Text(
                     '${totp.substring(0, totp.length ~/ 2)} ${totp.substring(totp.length ~/ 2)}',
                     style: TextStyle(
-                        fontSize: 32,
-                        color: Colors.white,
+                        fontSize: 28,
+                        color: Colors.blue,
                         fontWeight: FontWeight.w500),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                ),
-                Text(
-                  secureOtp.accountName,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                )
               ],
             ),
           ),

@@ -1,4 +1,6 @@
 import 'package:authenticator/models/secure_otp.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
@@ -13,6 +15,13 @@ class TotpController extends GetxController{
 
   @override
   void onInit() {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      // navigation bar color
+      statusBarColor:
+      Colors.white, // status bar color//navigation bar icon
+    ));
+
     otpItems.value = db.values.toList();
   }
 
