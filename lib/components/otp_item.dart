@@ -4,7 +4,6 @@ import 'package:authenticator/models/secure_otp.dart';
 
 import 'package:flutter/material.dart';
 import 'package:timer_count_down/timer_controller.dart';
-import 'package:timer_count_down/timer_count_down.dart';
 
 class OTPItem extends StatefulWidget {
   final SecureOtp secureOtp;
@@ -19,6 +18,7 @@ class OTPItemState extends State<OTPItem> {
   late final SecureOtp secureOtp;
   final CountdownController _controller = CountdownController(autoStart: true);
   late String totp;
+  late StreamController<String> streamController;
 
   @override
   void initState() {
@@ -26,8 +26,11 @@ class OTPItemState extends State<OTPItem> {
     secureOtp = widget.secureOtp;
     totp = secureOtp.getTotp();
 
+    streamController = StreamController();
+    streamController.sink.add(totp);
+
     Timer.periodic(Duration(seconds: 60), (timer) {
-      totp = secureOtp.getTotp();
+      streamController.sink.add(secureOtp.getTotp());
     });
   }
 
@@ -59,12 +62,16 @@ class OTPItemState extends State<OTPItem> {
                 ),
                 Align(
                   alignment: AlignmentDirectional.topStart,
-                  child: Text(
-                    '${totp.substring(0, totp.length ~/ 2)} ${totp.substring(totp.length ~/ 2)}',
-                    style: TextStyle(
-                        fontSize: 28,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w500),
+                  child: StreamBuilder<String>(stream: streamController.stream,
+                    builder: (BuildContext context,AsyncSnapshot<String> snapshot){
+                    return Text(
+                      '${snapshot.data.toString().substring(0, totp.length ~/ 2)} ${snapshot.data.toString().substring(totp.length ~/ 2)}',
+                      style: TextStyle(
+                          fontSize: 28,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500),
+                    );
+                    },
                   ),
                 ),
               ],

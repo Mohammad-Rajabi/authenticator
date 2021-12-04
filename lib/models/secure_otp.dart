@@ -28,7 +28,7 @@ class SecureOtp {
   String getTotp() {
     return OTP.generateTOTPCodeString(
         secret, DateTime.now().millisecondsSinceEpoch,
-        interval: interval, algorithm: getAlgorithm(algorithm));
+        interval:interval, algorithm: getAlgorithm(algorithm));
   }
 
   Algorithm getAlgorithm(String algorithm) {
