@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:authenticator/models/secure_otp.dart';
 
 import 'package:flutter/material.dart';
-import 'package:timer_count_down/timer_controller.dart';
 
 class OTPItem extends StatefulWidget {
   final SecureOtp secureOtp;
@@ -16,7 +15,6 @@ class OTPItem extends StatefulWidget {
 
 class OTPItemState extends State<OTPItem> {
   late final SecureOtp secureOtp;
-  final CountdownController _controller = CountdownController(autoStart: true);
   late String totp;
   late StreamController<String> streamController;
 
