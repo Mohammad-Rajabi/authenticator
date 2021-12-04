@@ -1,40 +1,24 @@
 import 'dart:async';
 
 import 'package:authenticator/models/secure_otp.dart';
-
 import 'package:flutter/material.dart';
-import 'package:timer_count_down/timer_controller.dart';
 
-class OTPItem extends StatefulWidget {
-  final SecureOtp secureOtp;
-
-  const OTPItem({Key? key, required this.secureOtp}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => OTPItemState();
-}
-
-class OTPItemState extends State<OTPItem> {
+class OTPItem extends StatelessWidget {
   late final SecureOtp secureOtp;
   late String totp;
   late StreamController<String> streamController;
 
-  @override
-  void initState() {
-    super.initState();
-    secureOtp = widget.secureOtp;
-    totp = secureOtp.getTotp();
+  OTPItem({required this.secureOtp});
 
+  @override
+  Widget build(BuildContext context) {
+    totp = secureOtp.getTotp();
     streamController = StreamController();
     streamController.sink.add(totp);
 
     Timer.periodic(Duration(seconds: 60), (timer) {
       streamController.sink.add(secureOtp.getTotp());
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
 
     return Padding(
       padding: EdgeInsets.only(top: 8, right: 8, left: 8),
@@ -58,20 +42,43 @@ class OTPItemState extends State<OTPItem> {
                 SizedBox(
                   height: 8,
                 ),
-                Align(
-                  alignment: AlignmentDirectional.topStart,
-                  child: StreamBuilder<String>(stream: streamController.stream,
-                    builder: (BuildContext context,AsyncSnapshot<String> snapshot){
-                    return Text(
-                      '${snapshot.data.toString().substring(0, totp.length ~/ 2)} ${snapshot.data.toString().substring(totp.length ~/ 2)}',
-                      style: TextStyle(
-                          fontSize: 28,
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500),
-                    );
-                    },
-                  ),
-                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      StreamBuilder<String>(
+                        stream: streamController.stream,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          return Text(
+                            '${snapshot.data.toString().substring(0, totp.length ~/ 2)} ${snapshot.data.toString().substring(totp.length ~/ 2)}',
+                            style: TextStyle(
+                                fontSize: 28,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w500),
+                          );
+                        },
+                      ),
+                      TweenAnimationBuilder(
+                          tween: Tween(begin: 0.0, end: 1.0),
+                          duration: Duration(seconds: 60),
+                          builder: (BuildContext context, double value, child) {
+                            return ShaderMask(
+                              shaderCallback: (rect) {
+                                return SweepGradient(
+
+                                        stops: [value, value],
+                                        colors: [Colors.blue, Colors.white])
+                                    .createShader(rect);
+                              },
+                              child: Container(
+                                height: 24,
+                                width: 24,
+                                decoration:
+                                    BoxDecoration(shape: BoxShape.circle),
+                              ),
+                            );
+                          })
+                    ]),
               ],
             ),
           ),

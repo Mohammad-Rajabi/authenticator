@@ -17,9 +17,8 @@ class TotpController extends GetxController{
   void onInit() {
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      // navigation bar color
       statusBarColor:
-      Colors.white, // status bar color//navigation bar icon
+      Colors.white,
     ));
 
     otpItems.value = db.values.toList();

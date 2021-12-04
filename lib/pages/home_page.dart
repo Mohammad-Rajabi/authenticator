@@ -83,10 +83,10 @@ class HomePage extends StatelessWidget {
     } else {
       return Obx(
         () => ListView.builder(
-            itemCount: _totpController.otpItems.value.length,
+            itemCount: _totpController.otpItems.length,
             itemBuilder: (context, index) {
               return OTPItem(
-                secureOtp: _totpController.otpItems.value[index],
+                secureOtp: _totpController.otpItems[index],
               );
             }),
       );
