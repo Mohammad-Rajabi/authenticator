@@ -16,7 +16,6 @@ class OTPItem extends StatefulWidget {
 
 class OTPItemState extends State<OTPItem> {
   late final SecureOtp secureOtp;
-  final CountdownController _controller = CountdownController(autoStart: true);
   late String totp;
   late StreamController<String> streamController;
 
@@ -36,7 +35,6 @@ class OTPItemState extends State<OTPItem> {
 
   @override
   Widget build(BuildContext context) {
-    var totpKey = secureOtp.secret;
 
     return Padding(
       padding: EdgeInsets.only(top: 8, right: 8, left: 8),
