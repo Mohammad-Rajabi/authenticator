@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:authenticator/models/secure_otp.dart';
 import 'package:flutter/material.dart';
-import 'package:circular_countdown/circular_countdown.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
 class OTPItem extends StatelessWidget {
   late String _totp;
   late StreamController<String> _streamController;
   late final SecureOtp secureOtp;
   late int duration;
+  late CountDownController _countDownController;
 
   OTPItem({required this.secureOtp, required this.duration});
 
@@ -16,10 +17,12 @@ class OTPItem extends StatelessWidget {
   Widget build(BuildContext context) {
     _totp = secureOtp.getTotp();
     _streamController = StreamController();
+    _countDownController =  CountDownController();
     _streamController.sink.add(_totp);
 
     Timer.periodic(Duration(seconds: duration), (timer) {
       _streamController.sink.add(secureOtp.getTotp());
+      _countDownController.restart();
     });
 
     return Padding(
@@ -60,20 +63,20 @@ class OTPItem extends StatelessWidget {
                           );
                         },
                       ),
-                      TimeCircularCountdown(
-                        countdownTotal: 60,
-                        isClockwise: false,
+                      CircularCountDownTimer(
+                        height: 24,
+                        width: 24,
+                        initialDuration: 0,
+                        duration: duration,
                         strokeWidth: 2,
-                        diameter: 24,
-                        repeat: true,
-                        textStyle: TextStyle(
-                          color: Colors.blue,
-                        ),
-                        countdownTotalColor: Colors.grey,
-                        countdownRemainingColor: Colors.grey,
-                        countdownCurrentColor: Colors.blue,
-                        gapFactor: 2,
-                        unit: CountdownUnit.second,
+                        isReverse: true,
+                        controller: _countDownController,
+                        ringColor: Colors.blue,
+                        fillColor: Colors.white,
+                        textStyle: TextStyle(fontSize: 12),
+                        textFormat: CountdownTextFormat.S,
+                        isTimerTextShown: true,
+                        autoStart: true,
                       ),
                     ]),
               ],
