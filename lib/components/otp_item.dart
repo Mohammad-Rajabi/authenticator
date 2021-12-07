@@ -1,40 +1,26 @@
 import 'dart:async';
 
 import 'package:authenticator/models/secure_otp.dart';
-
 import 'package:flutter/material.dart';
+import 'package:circular_countdown/circular_countdown.dart';
 
-class OTPItem extends StatefulWidget {
-  final SecureOtp secureOtp;
-
-  const OTPItem({Key? key, required this.secureOtp}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => OTPItemState();
-}
-
-class OTPItemState extends State<OTPItem> {
+class OTPItem extends StatelessWidget {
+  late String _totp;
+  late StreamController<String> _streamController;
   late final SecureOtp secureOtp;
-  late String totp;
-  late StreamController<String> streamController;
+  late int duration;
 
-  @override
-  void initState() {
-    super.initState();
-    secureOtp = widget.secureOtp;
-    totp = secureOtp.getTotp();
-
-    streamController = StreamController();
-    streamController.sink.add(totp);
-
-    Timer.periodic(Duration(seconds: 60), (timer) {
-      streamController.sink.add(secureOtp.getTotp());
-    });
-  }
+  OTPItem({required this.secureOtp, required this.duration});
 
   @override
   Widget build(BuildContext context) {
-    var totpKey = secureOtp.secret;
+    _totp = secureOtp.getTotp();
+    _streamController = StreamController();
+    _streamController.sink.add(_totp);
+
+    Timer.periodic(Duration(seconds: duration), (timer) {
+      _streamController.sink.add(secureOtp.getTotp());
+    });
 
     return Padding(
       padding: EdgeInsets.only(top: 8, right: 8, left: 8),
@@ -42,7 +28,7 @@ class OTPItemState extends State<OTPItem> {
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
           child: Padding(
-            padding: EdgeInsets.only(top: 18, bottom: 18, left: 16, right: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Column(
               children: <Widget>[
                 Align(
@@ -58,20 +44,38 @@ class OTPItemState extends State<OTPItem> {
                 SizedBox(
                   height: 8,
                 ),
-                Align(
-                  alignment: AlignmentDirectional.topStart,
-                  child: StreamBuilder<String>(stream: streamController.stream,
-                    builder: (BuildContext context,AsyncSnapshot<String> snapshot){
-                    return Text(
-                      '${snapshot.data.toString().substring(0, totp.length ~/ 2)} ${snapshot.data.toString().substring(totp.length ~/ 2)}',
-                      style: TextStyle(
-                          fontSize: 28,
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      StreamBuilder<String>(
+                        stream: _streamController.stream,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          return Text(
+                            '${snapshot.data.toString().substring(0, _totp.length ~/ 2)} ${snapshot.data.toString().substring(_totp.length ~/ 2)}',
+                            style: TextStyle(
+                                fontSize: 28,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w500),
+                          );
+                        },
+                      ),
+                      TimeCircularCountdown(
+                        countdownTotal: 60,
+                        isClockwise: false,
+                        strokeWidth: 2,
+                        diameter: 24,
+                        repeat: true,
+                        textStyle: TextStyle(
                           color: Colors.blue,
-                          fontWeight: FontWeight.w500),
-                    );
-                    },
-                  ),
-                ),
+                        ),
+                        countdownTotalColor: Colors.grey,
+                        countdownRemainingColor: Colors.grey,
+                        countdownCurrentColor: Colors.blue,
+                        gapFactor: 2,
+                        unit: CountdownUnit.second,
+                      ),
+                    ]),
               ],
             ),
           ),
