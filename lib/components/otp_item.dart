@@ -20,9 +20,8 @@ class OTPItem extends StatelessWidget {
     _countDownController =  CountDownController();
     _streamController.sink.add(_totp);
 
-    Timer.periodic(Duration(seconds: duration), (timer) {
+    Timer.periodic(Duration(seconds: duration), (timer) async{
       _streamController.sink.add(secureOtp.getTotp());
-      _countDownController.restart();
     });
 
     return Padding(
@@ -77,6 +76,7 @@ class OTPItem extends StatelessWidget {
                         textFormat: CountdownTextFormat.S,
                         isTimerTextShown: true,
                         autoStart: true,
+                        onComplete: ()=>_countDownController.restart(),
                       ),
                     ]),
               ],
