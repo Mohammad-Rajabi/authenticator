@@ -15,7 +15,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      backgroundColor: Colors.grey[200],
       floatingActionButton:
           _buildFloatActionButton(), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -58,39 +57,44 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    if (_totpController.otpItems.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Nothing to see here',
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.black,
-              ),
-            ),
-            Text(
-              'Add an account to get started',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[900],
-              ),
-            ),
-          ],
+    return Obx(
+      () => Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
         ),
-      );
-    } else {
-      return Obx(
-        () => ListView.builder(
-            itemCount: _totpController.otpItems.length,
-            itemBuilder: (context, index) {
-              return OTPItem(
-                secureOtp: _totpController.otpItems[index],duration: 60,
-              );
-            }),
-      );
-    }
+        child: (_totpController.otpItems.isEmpty)
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Nothing to see here',
+                      style: TextStyle(
+                        fontSize: 32,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      'Add an account to get started',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[900],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : ListView.builder(
+                itemCount: _totpController.otpItems.length,
+                itemBuilder: (context, index) {
+                  return OTPItem(
+                    secureOtp: _totpController.otpItems[index],
+                    duration: 60,
+                  );
+                },
+              ),
+      ),
+    );
   }
 
   Widget _buildFloatActionButton() {
