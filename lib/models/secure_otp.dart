@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:otp/otp.dart';
+import 'package:validated/validated.dart' as validate;
+import 'package:base32/base32.dart';
 
 @HiveType(typeId: 0)
 class SecureOtp {
@@ -13,7 +15,7 @@ class SecureOtp {
   final int interval;
 
   @HiveField(3)
-  final String secret;
+  String secret;
 
   @HiveField(4)
   final String accountName;
@@ -26,9 +28,20 @@ class SecureOtp {
       this.interval = 60});
 
   String getTotp() {
+
+    if(validate.isAlpha(secret)){
+      if (!validate.isBase32(secret)) {
+        secret = base32.encodeString(secret);
+      }
+    }
+    if(validate.isAlphanumeric(secret)){
+      if (!validate.isBase32(secret)) {
+        secret = base32.encodeHexString(secret);
+      }
+    }
     return OTP.generateTOTPCodeString(
         secret, DateTime.now().millisecondsSinceEpoch,
-        interval:interval, algorithm: getAlgorithm(algorithm));
+        interval: interval, algorithm: getAlgorithm(algorithm));
   }
 
   Algorithm getAlgorithm(String algorithm) {
