@@ -127,13 +127,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  circular_countdown_timer:
-    dependency: "direct main"
-    description:
-      name: circular_countdown_timer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   cli_util:
     dependency: transitive
     description:
@@ -285,7 +278,7 @@ packages:
       name: flutter_speed_dial
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.6.6"
+    version: "5.0.0+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -560,6 +553,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sleek_circular_slider:
+    dependency: "direct main"
+    description:
+      name: sleek_circular_slider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   source_gen:
     dependency: transitive
     description:

@@ -1,17 +1,17 @@
 import 'package:authenticator/models/secure_otp.dart';
+import 'package:authenticator/pages/form_page.dart';
+import 'package:authenticator/repositroy/data_base_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 
 class TotpController extends GetxController{
-
-  var db = Hive.box('totp');
 
   RxList otpItems = [].obs;
 
   static TotpController get to => Get.find();
 
+  late var dbHandler;
 
   @override
   void onInit() {
@@ -20,18 +20,17 @@ class TotpController extends GetxController{
       statusBarColor:
       Colors.white,
     ));
-
-    otpItems.value = db.values.toList();
-  }
-
-  void saveTotp(SecureOtp totp){
-    db.put(totp.secret, totp);
-    otpItems.add(totp);
+    dbHandler = DBHandler();
+    otpItems.value = dbHandler.totpBox.values.toList();
   }
 
   void deleteTotp(SecureOtp totp) {
-    db.delete(totp);
+    dbHandler.delete(totp);
     otpItems.remove(totp);
+  }
+
+  void navigateToFormPage(){
+    Get.to(FormPage())?.then((value) => otpItems.add(value));
   }
 
 }

@@ -99,13 +99,13 @@ class HomePage extends StatelessWidget {
 
   Widget _buildFloatActionButton() {
     return SpeedDial(
+      icon:Icons.add,
       useRotationAnimation: true,
       spacing: 8,
       spaceBetweenChildren: 8,
       iconTheme: IconThemeData(color: Colors.black),
       backgroundColor: Colors.white,
-      animatedIcon: AnimatedIcons.menu_close,
-      animatedIconTheme: IconThemeData.fallback(),
+      activeIcon: Icons.close,
       overlayColor: Colors.grey,
       overlayOpacity: 0.6,
       children: [
@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
             label: 'Enter a Set up Key',
             backgroundColor: Colors.white,
             onTap: () {
-              Get.to(FormPage());
+              _totpController.navigateToFormPage();
             }),
       ],
     );

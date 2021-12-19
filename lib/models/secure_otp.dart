@@ -27,18 +27,18 @@ class SecureOtp {
       this.digits = 6,
       this.interval = 60});
 
-  String getTotp() {
+  String getOtp() {
 
     if(validate.isAlpha(secret)){
       if (!validate.isBase32(secret)) {
         secret = base32.encodeString(secret);
       }
     }
-    if(validate.isAlphanumeric(secret)){
-      if (!validate.isBase32(secret)) {
-        secret = base32.encodeHexString(secret);
-      }
-    }
+    // if(validate.isAlphanumeric(secret)){
+    //   if (!validate.isBase32(secret)) {
+    //     secret = base32.encodeHexString(secret);
+    //   }
+    // }
     return OTP.generateTOTPCodeString(
         secret, DateTime.now().millisecondsSinceEpoch,
         interval: interval, algorithm: getAlgorithm(algorithm));
