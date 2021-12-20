@@ -28,8 +28,7 @@ class SecureOtp {
       this.interval = 60});
 
   String getOtp() {
-
-    if(validate.isAlpha(secret)){
+    if (validate.isAlpha(secret)) {
       if (!validate.isBase32(secret)) {
         secret = base32.encodeString(secret);
       }
@@ -40,8 +39,8 @@ class SecureOtp {
     //   }
     // }
     return OTP.generateTOTPCodeString(
-        secret, DateTime.now().millisecondsSinceEpoch,
-        interval: interval, algorithm: getAlgorithm(algorithm));
+        secret, DateTime.now().millisecondsSinceEpoch,interval: interval,
+        algorithm: getAlgorithm(algorithm));
   }
 
   Algorithm getAlgorithm(String algorithm) {

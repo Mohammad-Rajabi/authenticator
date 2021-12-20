@@ -21,7 +21,7 @@ class OTPItem extends StatelessWidget {
     _CircularSliderStreamController = StreamController();
     _otpStreamController.sink.add(_otp);
 
-    Timer.periodic(Duration(seconds: (duration - (DateTime.now().second))),
+    Timer.periodic(Duration(seconds: (60 - (DateTime.now().second.toInt()))),
         (timer) async {
       _otpStreamController.sink.add(secureOtp.getOtp());
     });
