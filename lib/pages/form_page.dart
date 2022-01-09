@@ -12,37 +12,39 @@ class FormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
+          iconTheme: context.theme.iconTheme,
           title: Text(
             "Enter detail account",
-            style: TextStyle(color: Colors.black),
+              style: context.theme.textTheme.headline6,
           ),
         ),
-        body: Form(
-          key: _formController.formKey,
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                _accountNameField(),
-                _secretKeyField(),
-                Align(
-                  alignment: AlignmentDirectional.topStart,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        primary: Colors.blue),
-                    onPressed: _onAddButtonClicked,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Text('Add',
-                          style: TextStyle(color: Colors.white, fontSize: 16)),
+        body: Container(
+          decoration: BoxDecoration(color: context.theme.backgroundColor),
+          child: Form(
+            key: _formController.formKey,
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  _accountNameField(),
+                  _secretKeyField(),
+                  Align(
+                    alignment: AlignmentDirectional.topStart,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          primary: Colors.blue),
+                      onPressed: _onAddButtonClicked,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: Text('Add',
+                            style: TextStyle(color: Colors.white, fontSize: 16)),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ));

@@ -1,6 +1,7 @@
 import 'package:authenticator/components/otp_item.dart';
 import 'package:authenticator/controllers/totp_controller.dart';
 import 'package:authenticator/pages/form_page.dart';
+import 'package:authenticator/utility/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
@@ -13,35 +14,62 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-      floatingActionButton:
-          _buildFloatActionButton(), // This trailing comma makes auto-formatting nicer for build methods.
+      appBar: _buildAppBar(context),
+      body: _buildBody(context),
+      floatingActionButton: _buildFloatActionButton(
+          context), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
-  AppBar _buildAppBar() {
-    return true ? _mainAppBar() : _secondAppBar();
+  AppBar _buildAppBar(BuildContext context) {
+    return true ? _mainAppBar(context) : _secondAppBar(context);
   }
 
-  AppBar _mainAppBar() {
+  AppBar _mainAppBar(BuildContext context) {
     return AppBar(
+      elevation: 0,
       title: Text(
         "Authenticator",
-        style: TextStyle(color: Colors.black),
+        style: context.theme.textTheme.headline6,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.backgroundColor,
       centerTitle: true,
+      actions: [
+        PopupMenuButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: context.theme.iconTheme.color,
+            ),
+            onSelected: (String choise) {
+              _totpController.changeTheme();
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                    value: 'theme mode',
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.only(end: 4),
+                      child: Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: Text(
+                            ThemeService().theme == ThemeMode.dark
+                                ? 'View in light mode'
+                                : 'View in dark mode',
+                            style: context.theme.textTheme.bodyText2,
+                          )),
+                    ))
+              ];
+            })
+      ],
     );
   }
 
-  AppBar _secondAppBar() {
+  AppBar _secondAppBar(BuildContext context) {
     return AppBar(
       title: Text(
         "Authenticator",
-        style: TextStyle(color: Colors.black),
+        style: context.theme.textTheme.headline6,
       ),
-      backgroundColor: Colors.white,
       leading: Icon(
         Icons.arrow_back,
         color: Colors.black,
@@ -56,11 +84,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return Obx(
       () => Container(
         decoration: BoxDecoration(
-          color: Colors.grey[200],
+          color: context.theme.backgroundColor,
         ),
         child: (_totpController.otpItems.isEmpty)
             ? Center(
@@ -71,14 +99,14 @@ class HomePage extends StatelessWidget {
                       'Nothing to see here',
                       style: TextStyle(
                         fontSize: 32,
-                        color: Colors.black,
+                        color: context.theme.textTheme.headline6!.color,
                       ),
                     ),
                     Text(
                       'Add an account to get started',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey[900],
+                        color: Colors.grey,
                       ),
                     ),
                   ],
@@ -97,14 +125,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildFloatActionButton() {
+  Widget _buildFloatActionButton(BuildContext context) {
     return SpeedDial(
-      icon:Icons.add,
+      icon: Icons.add,
       useRotationAnimation: true,
       spacing: 8,
       spaceBetweenChildren: 8,
-      iconTheme: IconThemeData(color: Colors.black),
-      backgroundColor: Colors.white,
+      iconTheme: context.theme.iconTheme,
+      backgroundColor: context.theme.floatingActionButtonTheme.backgroundColor,
       activeIcon: Icons.close,
       overlayColor: Colors.grey,
       overlayOpacity: 0.6,
@@ -115,7 +143,8 @@ class HomePage extends StatelessWidget {
               color: Colors.lightBlue,
             ),
             label: 'Enter a Set up Key',
-            backgroundColor: Colors.white,
+            backgroundColor:
+                context.theme.floatingActionButtonTheme.backgroundColor,
             onTap: () {
               _totpController.navigateToFormPage();
             }),

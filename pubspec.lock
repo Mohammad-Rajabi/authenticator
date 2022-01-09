@@ -84,7 +84,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.7"
   build_runner_core:
     dependency: transitive
     description:
@@ -302,7 +302,14 @@ packages:
       name: get
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.8"
+    version: "4.6.1"
+  get_storage:
+    dependency: "direct main"
+    description:
+      name: get_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   glob:
     dependency: transitive
     description:
@@ -323,7 +330,7 @@ packages:
       name: hive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   hive_flutter:
     dependency: "direct main"
     description:
@@ -337,7 +344,7 @@ packages:
       name: hive_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.1.2"
   http_multi_server:
     dependency: transitive
     description:
@@ -421,7 +428,7 @@ packages:
       name: otp
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   package_config:
     dependency: transitive
     description:

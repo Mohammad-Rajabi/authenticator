@@ -23,7 +23,7 @@ class SecureOtp {
   SecureOtp(
       {required this.secret,
       required this.accountName,
-      this.algorithm = 'SHA256',
+      this.algorithm = 'SHA1',
       this.digits = 6,
       this.interval = 60});
 
