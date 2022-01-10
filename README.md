@@ -4,7 +4,7 @@ Technologies
 
 Technologies that are used in this projects are:
 
-    Dart
+    Flutter
     Dio
     Hive
     Get Storage
