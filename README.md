@@ -7,6 +7,7 @@ Technologies that are used in this projects are:
     Dart
     Dio
     Hive
+    Get Storage
     Flutter secure storage
     Otp
 
