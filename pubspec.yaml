@@ -61,7 +61,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icon/password.png"
+  image_path: "assets/icon/verification.png"
 
 
 # For information on the generic Dart part of this file, see the

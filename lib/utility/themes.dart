@@ -1,3 +1,4 @@
+import 'package:authenticator/utility/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,17 +21,17 @@ class Themes {
       iconTheme: IconThemeData(color: Colors.black));
 
   static final dark = ThemeData.dark().copyWith(
-      backgroundColor: Color(0xff202124),
+      backgroundColor: AppColors.LigtDark,
       appBarTheme: AppBarTheme(
         elevation: 0,
-        backgroundColor: Color(0xff202124),
+        backgroundColor: AppColors.LigtDark,
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Color(0xff202124),
+            statusBarColor: AppColors.LigtDark,
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: Color(0xff202124),
+        backgroundColor: AppColors.LigtDark,
       ),
       textTheme: TextTheme(
           headline6: TextStyle(color: Colors.white),

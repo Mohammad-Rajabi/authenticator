@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:authenticator/models/secure_otp.dart';
+import 'package:authenticator/utility/colors.dart';
 import 'package:authenticator/utility/theme_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class OTPItem extends StatelessWidget {
                     CustomSliderWidths(trackWidth: 2, progressBarWidth: 2),
                 customColors: CustomSliderColors(
                     trackColor: ThemeService().theme == ThemeMode.dark
-                        ? Color(0xff202124)
+                        ? AppColors.LigtDark
                         : Colors.white,
                     progressBarColor: Colors.blue)),
           ),
