@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FormPage extends StatelessWidget {
+
   final FormController _formController = Get.put(FormController());
   final TextEditingController _accountNameController = TextEditingController();
   final TextEditingController _secretKeyController = TextEditingController();
@@ -57,7 +58,7 @@ class FormPage extends StatelessWidget {
         maxLines: 1,
         keyboardType: TextInputType.text,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: _accountNameValidate,
+        validator: _formController.secretKeyValidate,
         controller: _accountNameController,
         style: TextStyle(color: Colors.grey, fontSize: 16),
         decoration: InputDecoration(
@@ -85,7 +86,7 @@ class FormPage extends StatelessWidget {
         maxLines: 1,
         keyboardType: TextInputType.text,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: _secretKeyValidate,
+        validator: _formController.secretKeyValidate,
         controller: _secretKeyController,
         style: TextStyle(color: Colors.grey, fontSize: 16),
         decoration: InputDecoration(
@@ -106,30 +107,7 @@ class FormPage extends StatelessWidget {
     );
   }
 
-  String? _accountNameValidate(String? value) {
-    if (value!.isEmpty) {
-      return "required";
-    } else {
-      return null;
-    }
-  }
-
-  String? _secretKeyValidate(String? value) {
-    if (value!.isEmpty) {
-      return "required";
-    }
-    if (value.length < 16) {
-      return "Cannot be less than 16 letters";
-    } else {
-      return null;
-    }
-  }
-
   void _onAddButtonClicked() {
-    SecureOtp secureOtp = SecureOtp(
-        secret: _secretKeyController.text,
-        accountName: _accountNameController.text);
-
-    _formController.addTotp(secureOtp);
+    _formController.addTotp(_secretKeyController.text,_accountNameController.text);
   }
 }

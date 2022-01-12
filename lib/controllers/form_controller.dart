@@ -1,10 +1,9 @@
-import 'package:authenticator/controllers/totp_controller.dart';
 import 'package:authenticator/models/secure_otp.dart';
 import 'package:authenticator/repositroy/data_base_handler.dart';
-import 'package:authenticator/utility/theme_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:validated/validated.dart' as validate;
+import 'package:base32/base32.dart';
 
 class FormController extends GetxController {
   late GlobalKey<FormState> formKey;
@@ -12,15 +11,58 @@ class FormController extends GetxController {
 
   @override
   void onInit() {
-
     formKey = GlobalKey();
     dbHandler = DBHandler();
   }
 
-  void addTotp(SecureOtp secureOtp) {
-    if (formKey.currentState!.validate()) {
-      dbHandler.saveTotp(secureOtp);
-      Get.back(result: secureOtp);
+  String? accountNameValidate(String? value) {
+    if (value!.isEmpty) {
+      return "required";
+    } else {
+      return null;
     }
+  }
+
+  String? secretKeyValidate(String? value) {
+    if (value!.isEmpty) {
+      return "required";
+    }
+    if (value.length < 16) {
+      return "Cannot be less than 16 letters";
+    } else {
+      if(!value.isAlphabetOnly) {
+        return "Must contain letters and numbers";
+      }
+      return null;
+    }
+  }
+
+  void addTotp(String secretKey, String accountName) {
+    if (formKey.currentState!.validate()) {
+      var result = isBase32Secret(secretKey);
+
+      if (result != null) {
+        SecureOtp secureOtp =
+            SecureOtp(secret: result, accountName: accountName);
+
+        dbHandler.saveTotp(secureOtp);
+        Get.back(result: secureOtp);
+      }
+    }
+  }
+
+  String? isBase32Secret(String secretKey) {
+    String? secret;
+    if (validate.isAlpha(secretKey)) {
+      if (!validate.isBase32(secretKey)) {
+        secret = base32.encodeString(secretKey);
+      }
+    }
+    // if (validate.isAlphanumeric(secretKey)) {
+    //   if (!validate.isBase32(secretKey)) {
+    //     secret = base32.encodeHexString(secretKey);
+    //   }
+    // }
+    return secret;
   }
 }
