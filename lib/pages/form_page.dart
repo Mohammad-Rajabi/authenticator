@@ -12,43 +12,51 @@ class FormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          iconTheme: context.theme.iconTheme,
-          title: Text(
-            "Enter detail account",
-              style: context.theme.textTheme.headline6,
-          ),
-        ),
-        body: Container(
-          decoration: BoxDecoration(color: context.theme.backgroundColor),
-          child: Form(
-            key: _formController.formKey,
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  _accountNameField(),
-                  _secretKeyField(),
-                  Align(
-                    alignment: AlignmentDirectional.topStart,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          primary: Colors.blue),
-                      onPressed: _onAddButtonClicked,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text('Add',
-                            style: TextStyle(color: Colors.white, fontSize: 16)),
-                      ),
+        appBar: _buildAppBar(context),
+        body: _buildBody(context));
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(color: context.theme.backgroundColor),
+        child: Form(
+          key: _formController.formKey,
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
+                _accountNameField(),
+                _secretKeyField(),
+                Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        primary: Colors.blue),
+                    onPressed: _onAddButtonClicked,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Text('Add',
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+        iconTheme: context.theme.iconTheme,
+        title: Text(
+          "Enter detail account",
+            style: context.theme.textTheme.headline6,
+        ),
+      );
   }
 
   Widget _accountNameField() {
@@ -58,7 +66,7 @@ class FormPage extends StatelessWidget {
         maxLines: 1,
         keyboardType: TextInputType.text,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: _formController.secretKeyValidate,
+        validator: _formController.accountNameValidate,
         controller: _accountNameController,
         style: TextStyle(color: Colors.grey, fontSize: 16),
         decoration: InputDecoration(
