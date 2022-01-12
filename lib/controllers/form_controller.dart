@@ -53,16 +53,11 @@ class FormController extends GetxController {
 
   String? isBase32Secret(String secretKey) {
     String? secret;
-    if (validate.isAlpha(secretKey)) {
+    if (validate.isAlphanumeric(secretKey)) {
       if (!validate.isBase32(secretKey)) {
         secret = base32.encodeString(secretKey);
       }
     }
-    // if (validate.isAlphanumeric(secretKey)) {
-    //   if (!validate.isBase32(secretKey)) {
-    //     secret = base32.encodeHexString(secretKey);
-    //   }
-    // }
     return secret;
   }
 }
