@@ -27,8 +27,8 @@ class FormController extends GetxController {
     if (value!.isEmpty) {
       return "required";
     }
-    if (value.length < 16) {
-      return "Cannot be less than 16 letters";
+    if (value.length < 12) {
+      return "Cannot be less than 12 letters";
     } else {
       if(!RegExp(r'^[A-Za-z0-9]+$').hasMatch(value)) {
         return "Must contain letters and numbers";

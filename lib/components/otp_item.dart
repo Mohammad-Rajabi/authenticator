@@ -7,14 +7,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
-class OTPItem extends StatelessWidget {
+class OTPItem extends StatefulWidget {
   SecureOtp secureOtp;
   int duration;
+
+  OTPItem({required this.secureOtp, required this.duration});
+
+  @override
+  State<StatefulWidget> createState() {
+    return OTPItemState();
+  }}
+
+class OTPItemState extends State<OTPItem>{
   late String _otp;
   late StreamController<String> _otpStreamController;
   late StreamController<int> _CircularSliderStreamController;
-
-  OTPItem({required this.secureOtp, required this.duration});
 
   void _counterTimer() {
     Timer.periodic(Duration(seconds: 1), (timer) async {
@@ -24,14 +31,14 @@ class OTPItem extends StatelessWidget {
 
   void _getOtpTimer() {
     Timer.periodic(Duration(seconds: (60 - (DateTime.now().second))),
-        (timer) async {
-      _otpStreamController.sink.add(secureOtp.getOtp());
-    });
+            (timer) async {
+          _otpStreamController.sink.add(widget.secureOtp.getOtp());
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-    _otp = secureOtp.getOtp();
+    _otp = widget.secureOtp.getOtp();
     _otpStreamController = StreamController();
     _CircularSliderStreamController = StreamController();
     _otpStreamController.sink.add(_otp);
@@ -50,7 +57,7 @@ class OTPItem extends StatelessWidget {
               Align(
                 alignment: AlignmentDirectional.topStart,
                 child: Text(
-                  secureOtp.accountName,
+                  widget.secureOtp.accountName,
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -82,10 +89,10 @@ class OTPItem extends StatelessWidget {
           width: 32,
           child: SleekCircularSlider(
             min: 0,
-            max: (duration - 1),
+            max: (widget.duration - 1),
             initialValue: snapshot.data == null
-                ? ((duration - 1) - DateTime.now().second).toDouble()
-                : ((duration - 1) - snapshot.data!).toDouble(),
+                ? ((widget.duration - 1) - DateTime.now().second).toDouble()
+                : ((widget.duration - 1) - snapshot.data!).toDouble(),
             appearance: CircularSliderAppearance(
                 size: 32,
                 startAngle: 270,
@@ -94,12 +101,12 @@ class OTPItem extends StatelessWidget {
                 animationEnabled: false,
                 infoProperties: InfoProperties(
                     mainLabelStyle:
-                        TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
+                    TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                     modifier: (double value) => snapshot.data == null
-                        ? ((duration - 1) - DateTime.now().second).toString()
-                        : ((duration - 1) - snapshot.data!).toString()),
+                        ? ((widget.duration - 1) - DateTime.now().second).toString()
+                        : ((widget.duration - 1) - snapshot.data!).toString()),
                 customWidths:
-                    CustomSliderWidths(trackWidth: 2, progressBarWidth: 2),
+                CustomSliderWidths(trackWidth: 2, progressBarWidth: 2),
                 customColors: CustomSliderColors(
                     trackColor: ThemeService().theme == ThemeMode.dark
                         ? AppColors.LigtDark
@@ -125,5 +132,12 @@ class OTPItem extends StatelessWidget {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _otpStreamController.close();
+    _CircularSliderStreamController.close();
+    super.dispose();
   }
 }

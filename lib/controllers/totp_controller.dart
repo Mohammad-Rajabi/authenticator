@@ -2,8 +2,6 @@ import 'package:authenticator/models/secure_otp.dart';
 import 'package:authenticator/pages/form_page.dart';
 import 'package:authenticator/repositroy/data_base_handler.dart';
 import 'package:authenticator/utility/theme_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class TotpController extends GetxController {
