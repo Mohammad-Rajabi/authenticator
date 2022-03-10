@@ -1,16 +1,17 @@
 import 'dart:convert';
 
-import 'package:authenticator/my_app.dart';
+import 'package:authenticator/app.dart';
+import 'package:authenticator/src/data/models/secure_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'models/secure_otp.dart';
 
 void main() async{
 
-  // Directory appDocDir = await getApplicationDocumentsDirectory();
+  await GetStorage.init();
   Hive.registerAdapter(SecureOtpAdapter());
   await Hive.initFlutter();
 
@@ -27,7 +28,7 @@ void main() async{
   encryptionKey = base64Url.decode((await secureStorage.read(key:'encryptionKey'))!);
   await Hive.openBox('totp',encryptionCipher: HiveAesCipher(encryptionKey));
 
-  runApp(MyApp());
+  runApp(App());
 }
 
 

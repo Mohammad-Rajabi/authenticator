@@ -26,10 +26,12 @@ class SecureOtp {
       this.interval = 60});
 
   String getOtp() {
-
     return OTP.generateTOTPCodeString(
-        secret, DateTime.now().millisecondsSinceEpoch,interval: interval,
-        algorithm: getAlgorithm(algorithm));
+      secret,
+      DateTime.now().millisecondsSinceEpoch,
+      algorithm: getAlgorithm(algorithm),
+      isGoogle: true,
+    );
   }
 
   Algorithm getAlgorithm(String algorithm) {

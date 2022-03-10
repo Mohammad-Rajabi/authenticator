@@ -1,8 +1,9 @@
-import 'package:authenticator/utility/colors.dart';
+import 'package:authenticator/src/core/constant/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Themes {
+class AppTheme {
+
   static final light = ThemeData.light().copyWith(
       backgroundColor: Colors.white,
       appBarTheme: AppBarTheme(

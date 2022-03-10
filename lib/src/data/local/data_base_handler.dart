@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:authenticator/src/data/models/secure_otp.dart';
 import 'package:hive/hive.dart';
-import 'package:authenticator/models/secure_otp.dart';
 
 class DBHandler {
   static final DBHandler _instance = DBHandler._internal();

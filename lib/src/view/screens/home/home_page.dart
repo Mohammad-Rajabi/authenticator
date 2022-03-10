@@ -1,13 +1,12 @@
-import 'package:authenticator/components/otp_item.dart';
-import 'package:authenticator/controllers/totp_controller.dart';
-import 'package:authenticator/pages/form_page.dart';
-import 'package:authenticator/utility/theme_service.dart';
+import 'package:authenticator/src/data/local/theme_service.dart';
+import 'package:authenticator/src/view/screens/form/widget/otp_item_widget.dart';
+import 'package:authenticator/src/view_model/totp_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
-  final TotpController _totpController = Get.put(TotpController());
+  final TotpViewModel _totpViewModel = Get.find<TotpViewModel>();
 
   HomePage({Key? key}) : super(key: key);
 
@@ -16,16 +15,15 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(context),
-      floatingActionButton: _buildFloatActionButton(
-          context), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: _buildFloatActionButton(context),
     );
   }
 
   AppBar _buildAppBar(BuildContext context) {
-    return true ? _mainAppBar(context) : _secondAppBar(context);
+    return _appBar(context);
   }
 
-  AppBar _mainAppBar(BuildContext context) {
+  AppBar _appBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       title: Text(
@@ -41,7 +39,7 @@ class HomePage extends StatelessWidget {
               color: context.theme.iconTheme.color,
             ),
             onSelected: (String choise) {
-              _totpController.changeTheme();
+              _totpViewModel.changeTheme();
             },
             itemBuilder: (BuildContext context) {
               return [
@@ -64,65 +62,52 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  AppBar _secondAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(
-        "Authenticator",
-        style: context.theme.textTheme.headline6,
-      ),
-      leading: Icon(
-        Icons.arrow_back,
-        color: Colors.black,
-      ),
-      actions: [
-        Icon(Icons.delete),
-        Padding(
-          padding: EdgeInsetsDirectional.only(end: 8),
-        ),
-        Icon(Icons.edit)
-      ],
-    );
-  }
-
   Widget _buildBody(BuildContext context) {
     return Obx(
       () => Container(
         decoration: BoxDecoration(
           color: context.theme.backgroundColor,
         ),
-        child: (_totpController.otpItems.isEmpty)
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Nothing to see here',
-                      style: TextStyle(
-                        fontSize: 32,
-                        color: context.theme.textTheme.headline6!.color,
-                      ),
-                    ),
-                    Text(
-                      'Add an account to get started',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : ListView.builder(
-                itemCount: _totpController.otpItems.length,
-                itemBuilder: (context, index) {
-                  return OTPItem(
-                    secureOtp: _totpController.otpItems[index],
-                    duration: 60,
-                  );
-                },
-              ),
+        child: (_totpViewModel.otpItems.isEmpty)
+            ? _buildEmptyState(context)
+            : _buildListView(),
       ),
     );
+  }
+
+  Widget _buildListView() {
+    return ListView.builder(
+              itemCount: _totpViewModel.otpItems.length,
+              itemBuilder: (context, index) {
+                return OTPItemWidget(
+                  secureOtp: _totpViewModel.otpItems[index],
+                );
+              },
+            );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Nothing to see here',
+                    style: TextStyle(
+                      fontSize: 32,
+                      color: context.theme.textTheme.headline6!.color,
+                    ),
+                  ),
+                  Text(
+                    'Add an account to get started',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            );
   }
 
   Widget _buildFloatActionButton(BuildContext context) {
@@ -146,7 +131,7 @@ class HomePage extends StatelessWidget {
             backgroundColor:
                 context.theme.floatingActionButtonTheme.backgroundColor,
             onTap: () {
-              _totpController.navigateToFormPage();
+              _totpViewModel.navigateToFormPage();
             }),
       ],
     );
