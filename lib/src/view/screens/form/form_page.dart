@@ -1,5 +1,5 @@
 import 'package:authenticator/src/core/util/validator.dart';
-import 'package:authenticator/src/view/components/text_form_field_widget.dart';
+import 'package:authenticator/src/view/screens/form/widget/text_form_field_widget.dart';
 import 'package:authenticator/src/view_model/form_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

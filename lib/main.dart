@@ -11,6 +11,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async{
 
+  await _startSetup();
+
+  runApp(App());
+}
+
+Future<void> _startSetup() async {
   await GetStorage.init();
   Hive.registerAdapter(SecureOtpAdapter());
   await Hive.initFlutter();
@@ -27,8 +33,6 @@ void main() async{
 
   encryptionKey = base64Url.decode((await secureStorage.read(key:'encryptionKey'))!);
   await Hive.openBox('totp',encryptionCipher: HiveAesCipher(encryptionKey));
-
-  runApp(App());
 }
 
 

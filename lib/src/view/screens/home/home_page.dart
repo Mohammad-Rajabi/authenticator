@@ -1,5 +1,5 @@
 import 'package:authenticator/src/data/local/theme_service.dart';
-import 'package:authenticator/src/view/screens/form/widget/otp_item_widget.dart';
+import 'package:authenticator/src/view/screens/home/widget/otp_item_widget.dart';
 import 'package:authenticator/src/view_model/totp_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
