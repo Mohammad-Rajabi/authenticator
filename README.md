@@ -25,26 +25,26 @@ Technologies that are used in this projects are:
 
 <table border>
     <tr>
+        <th style="text-align:center">Empty Screen | Light</th>
         <th style="text-align:center">Home Screen | Light</th>
         <th style="text-align:center">Form Screen | Light</th>
-        <th style="text-align:center">Empty Screen | Light</th>
     </tr>
     <tr>
+        <td><img src="./screenshot/empty_light.png" alt="" width="200"></td>
         <td><img src="./screenshot/home_light.png" alt="" width="200"></td>
         <td><img src="./screenshot/form_light.png" alt="" width="200"></td>
-        <td><img src="./screenshot/empty_light.png" alt="" width="200"></td>
     <tr>
 </table>
 
 <table border>
     <tr>
+        <th style="text-align:center">Empty Screen | Dark</th>
         <th style="text-align:center">Home Screen | Dark</th>
         <th style="text-align:center">Form Screen | Dark</th>
-        <th style="text-align:center">Empty Screen | Dark</th>
     </tr>
     <tr>
+        <td><img src="./screenshot/empty_dark.png" alt="" width="200"></td>
         <td><img src="./screenshot/home_dark.png" alt="" width="200"></td>
         <td><img src="./screenshot/form_dark.png" alt="" width="200"></td>
-        <td><img src="./screenshot/empty_dark.png" alt="" width="200"></td>
     <tr>
 </table>
