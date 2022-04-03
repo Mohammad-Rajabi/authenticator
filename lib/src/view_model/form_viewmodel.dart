@@ -6,12 +6,15 @@ import 'package:get/get.dart';
 import 'package:base32/base32.dart';
 
 class FormViewModel extends GetxController {
-  late GlobalKey<FormState> formKey;
+
+  late GlobalKey<FormState> _formKey;
+
+  GlobalKey<FormState> get formKey => _formKey;
   late var dbHandler;
 
   @override
   void onInit() {
-    formKey = GlobalKey();
+    _formKey = GlobalKey();
     dbHandler = DBHandler();
   }
 

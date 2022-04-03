@@ -15,7 +15,7 @@ class TotpViewModel extends GetxController {
   }
 
   void navigateToFormPage() {
-    Get.toNamed(AppRoutes.homeRoute)?.then((value) {
+    Get.toNamed(AppRoutes.formRoute)?.then((value) {
       if (value != null) {
         otpItems.add(value);
       }

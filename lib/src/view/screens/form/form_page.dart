@@ -4,10 +4,26 @@ import 'package:authenticator/src/view_model/form_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FormPage extends StatelessWidget {
-  final FormViewModel _formViewModel = Get.find<FormViewModel>();
-  final TextEditingController _accountNameController = TextEditingController();
-  final TextEditingController _secretKeyController = TextEditingController();
+class FormPage extends StatefulWidget {
+  @override
+  State<FormPage> createState() => _FormPageState();
+}
+
+class _FormPageState extends State<FormPage> {
+  late final FormViewModel _formViewModel;
+
+  late final TextEditingController _accountNameController;
+
+  late final TextEditingController _secretKeyController;
+
+
+  @override
+  void initState() {
+    _formViewModel = Get.find<FormViewModel>();
+    _accountNameController= TextEditingController();
+    _secretKeyController = TextEditingController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,4 +99,13 @@ class FormPage extends StatelessWidget {
     _formViewModel.addTotp(
         _secretKeyController.text, _accountNameController.text);
   }
+
+  @override
+  void dispose() {
+    _accountNameController.dispose();
+    _secretKeyController.dispose();
+    super.dispose();
+  }
+
+
 }

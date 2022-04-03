@@ -6,13 +6,14 @@ Features:
 * Generate verification codes without a data connection
 * Authenticator works with many providers & accounts
 * Dark theme available
-# authenticator
+## authenticator
 
 Technologies
 
 Technologies that are used in this projects are:
 
     Flutter
+    MVVM Architecture
     Dio
     Hive
     Get Storage
@@ -20,6 +21,30 @@ Technologies that are used in this projects are:
     Otp
 
 
-# Download
+## Screenshot
 
-You can download the latest APK version from [here](https://github.com/Mohammad-Rajabi/authenticator/releases)
+<table border>
+    <tr>
+        <th style="text-align:center">Home Screen | Light</th>
+        <th style="text-align:center">Form Screen | Light</th>
+        <th style="text-align:center">Empty Screen | Light</th>
+    </tr>
+    <tr>
+        <td><img src="./screenshot/home_light.png" alt="" width="200"></td>
+        <td><img src="./screenshot/form_light.png" alt="" width="200"></td>
+        <td><img src="./screenshot/empty_light.png" alt="" width="200"></td>
+    <tr>
+</table>
+
+<table border>
+    <tr>
+        <th style="text-align:center">Home Screen | Dark</th>
+        <th style="text-align:center">Form Screen | Dark</th>
+        <th style="text-align:center">Empty Screen | Dark</th>
+    </tr>
+    <tr>
+        <td><img src="./screenshot/home_dark.png" alt="" width="200"></td>
+        <td><img src="./screenshot/form_dark.png" alt="" width="200"></td>
+        <td><img src="./screenshot/empty_dark.png" alt="" width="200"></td>
+    <tr>
+</table>
