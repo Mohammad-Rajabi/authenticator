@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:authenticator/src/data/local/theme_service.dart';
 import 'package:authenticator/src/core/constant/color_constants.dart';
 import 'package:authenticator/src/data/models/secure_otp.dart';
+import 'package:authenticator/src/view_model/totp_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -10,7 +11,9 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 class OTPItemWidget extends StatefulWidget {
   SecureOtp secureOtp;
 
-  OTPItemWidget({required this.secureOtp});
+  TotpViewModel totpViewModel;
+
+  OTPItemWidget({required this.secureOtp,required this.totpViewModel});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,13 +29,13 @@ class OTPItemWidgetState extends State<OTPItemWidget> {
 
 
   void _timerScheduler() {
-    Timer.periodic(Duration(seconds: 1), (timer) async {
+    Timer.periodic(const Duration(seconds: 1), (timer) async {
       _otpTimerDuration = ((DateTime.now().second < 30
           ? ((_duration - DateTime.now().second) - 1)
           : ((2 * _duration - DateTime.now().second) - 1)));
       _CircularSliderStreamController.sink.add(_otpTimerDuration);
       if (_otpTimerDuration == (_duration - 1)) {
-        _otpStreamController.sink.add(widget.secureOtp.getOtp());
+        _otpStreamController.sink.add(widget.totpViewModel.getOtp(widget.secureOtp));
       }
     });
   }
@@ -40,37 +43,37 @@ class OTPItemWidgetState extends State<OTPItemWidget> {
   @override
   void initState() {
     super.initState();
-    _otpStreamController.sink.add(widget.secureOtp.getOtp());
+    _otpStreamController.sink.add(widget.totpViewModel.getOtp(widget.secureOtp));
     _timerScheduler();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8, right: 8, left: 8),
+      padding: const EdgeInsets.only(top: 8, right: 8, left: 8),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(
             children: <Widget>[
               Align(
                 alignment: AlignmentDirectional.topStart,
                 child: Text(
                   widget.secureOtp.accountName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 _buildOtpStream(),
                 _buildCounterStream(),
               ]),
-              Divider(
+              const Divider(
                 height: 16,
               ),
             ],
@@ -104,7 +107,7 @@ class OTPItemWidgetState extends State<OTPItemWidget> {
                 animationEnabled: false,
                 infoProperties: InfoProperties(
                     mainLabelStyle:
-                        TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
+                        const TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                     modifier: (double value) => snapshot.data == null
                         ? ((DateTime.now().second < 30
                                 ? ((DateTime.now().second - _duration).abs() -
@@ -132,10 +135,10 @@ class OTPItemWidgetState extends State<OTPItemWidget> {
       stream: _otpStreamController.stream,
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.symmetric(vertical: 4),
           child: Text(
             '${snapshot.data.toString().substring(0, snapshot.data.toString().length ~/ 2)} ${snapshot.data.toString().substring(snapshot.data.toString().length ~/ 2)}',
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 28, color: Colors.blue, fontWeight: FontWeight.w500),
           ),
         );

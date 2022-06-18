@@ -81,6 +81,7 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return OTPItemWidget(
                   secureOtp: _totpViewModel.otpItems[index],
+                  totpViewModel: _totpViewModel,
                 );
               },
             );

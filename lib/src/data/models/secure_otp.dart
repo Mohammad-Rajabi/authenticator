@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:otp/otp.dart';
 
 @HiveType(typeId: 0)
 class SecureOtp {
@@ -25,27 +24,6 @@ class SecureOtp {
       this.digits = 6,
       this.interval = 60});
 
-  String getOtp() {
-    return OTP.generateTOTPCodeString(
-      secret,
-      DateTime.now().millisecondsSinceEpoch,
-      algorithm: getAlgorithm(algorithm),
-      isGoogle: true,
-    );
-  }
-
-  Algorithm getAlgorithm(String algorithm) {
-    switch (algorithm) {
-      case 'SHA256':
-        return Algorithm.SHA256;
-      case 'SHA512':
-        return Algorithm.SHA512;
-      case 'SHA1':
-        return Algorithm.SHA1;
-      default:
-        return Algorithm.SHA256;
-    }
-  }
 }
 
 // **************************************************************************
