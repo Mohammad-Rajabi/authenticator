@@ -44,7 +44,6 @@ Technologies that are used in this projects are:
     </tr>
     <tr>
         <td><img src="./screenshot/empty_dark.png" alt="" width="200"></td>
-        <td><img src="./screenshot/home_dark.png" alt="" width="200"></td>
         <td><img src="./screenshot/form_dark.png" alt="" width="200"></td>
     <tr>
 </table>
